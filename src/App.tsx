@@ -17,6 +17,7 @@ function App() {
       <Switch>
         <Route exact path="/">
           <Container>
+            <h1 className="title">AussieFarm's Kangaroos</h1>
             <Grid data={kangaroos} />
             <Link className="add-btn" to="/add">
               <Button>Add Kangaroo</Button>
