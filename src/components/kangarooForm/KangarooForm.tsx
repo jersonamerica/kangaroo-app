@@ -1,11 +1,17 @@
-import { useState, ChangeEvent, FC, useEffect } from "react";
+import {
+  useState,
+  ChangeEvent,
+  FC,
+  useEffect,
+  KeyboardEventHandler,
+} from "react";
 
 import Textbox from "components/textbox/Textbox";
 import Dropdown from "components/dropdown/Dropdown";
 import Container from "components/container/Container";
 import Button from "components/button/Button";
 import DatePicker from "react-datepicker";
-import { DEFAULT_STATE, isValidNumber, capitalize } from "helpers";
+import { DEFAULT_STATE, capitalize } from "helpers";
 
 import { kangaroos } from "data";
 import { Kangaroo } from "types";
@@ -48,14 +54,6 @@ const KangarooForm: FC<Props> = ({ isEditMode, selected }) => {
       formError.name = `${data.name} is already taken`;
     }
 
-    if (data.height && !isValidNumber(data.height)) {
-      formError.height = "Height must be a valid number";
-    }
-
-    if (data.weight && !isValidNumber(data.weight)) {
-      formError.weight = "Weight must be a valid number";
-    }
-
     if (Object.keys(formError).length) {
       setError(formError);
       return;
@@ -70,16 +68,24 @@ const KangarooForm: FC<Props> = ({ isEditMode, selected }) => {
       [key]: e.target.value,
     });
 
-  const validateNumber = (e: ChangeEvent<HTMLInputElement>, key: string) => {
-    if (!isValidNumber(e.target.value)) {
-      // not sure why this isn't working
+  const handleHeightKeyPress: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (
+      !/^-?\d*\.?\d*$/.test(e.key) ||
+      (e.key === "." && data.height.includes(".")) ||
+      e.key === "-"
+    ) {
       e.preventDefault();
     }
+  };
 
-    setData({
-      ...data,
-      [key]: e.target.value,
-    });
+  const handleWeightKeyPress: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (
+      !/^-?\d*\.?\d*$/.test(e.key) ||
+      (e.key === "." && data.weight.includes(".")) ||
+      e.key === "-"
+    ) {
+      e.preventDefault();
+    }
   };
 
   const submit = (data: Kangaroo) => {
@@ -107,16 +113,18 @@ const KangarooForm: FC<Props> = ({ isEditMode, selected }) => {
         <Textbox
           label="Weight"
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            validateNumber(e, "weight")
+            handleInputChange(e, "weight")
           }
+          onKeyPress={handleWeightKeyPress}
           value={data.weight}
           errorMessage={error?.weight}
         />
         <Textbox
           label="Height"
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            validateNumber(e, "height")
+            handleInputChange(e, "height")
           }
+          onKeyPress={handleHeightKeyPress}
           value={data.height}
           errorMessage={error?.height}
         />

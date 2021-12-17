@@ -1,15 +1,22 @@
-import { ChangeEventHandler, FC } from "react";
+import { ChangeEventHandler, KeyboardEvent, FC } from "react";
 
 import "./style.scss";
 
 type Props = {
   label: string;
-  onChange: ChangeEventHandler;
+  onChange: ChangeEventHandler<HTMLInputElement>;
   className?: string;
   errorMessage?: string;
   value?: string | number;
+  onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void;
 };
-const Textbox: FC<Props> = ({ label, onChange, errorMessage, value }) => {
+const Textbox: FC<Props> = ({
+  label,
+  onChange,
+  errorMessage,
+  value,
+  onKeyPress,
+}) => {
   return (
     <div className={errorMessage ? "error" : ""}>
       <label className="label" htmlFor={label}>
@@ -21,6 +28,7 @@ const Textbox: FC<Props> = ({ label, onChange, errorMessage, value }) => {
         onChange={onChange}
         className="textbox"
         defaultValue={value}
+        onKeyPress={onKeyPress}
       />
       {errorMessage && (
         <div className="error-message">
