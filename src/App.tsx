@@ -2,9 +2,10 @@ import { Switch, Route, Link } from "react-router-dom";
 
 import Grid from "components/grid/Grid";
 import KangarooForm from "./components/kangarooForm/KangarooForm";
-import EditKangaroo from "./components/EditKangaroo";
+import EditKangaroo from "./components/editKangaroo/EditKangaroo";
 import Container from "components/container/Container";
 import Button from "components/button/Button";
+import NotFound from "components/notfound/NotFound";
 
 import "./App.scss";
 
@@ -28,6 +29,7 @@ function App() {
         <Route exact path="/add">
           <KangarooForm />
         </Route>
+        <Route component={NotFound} />
       </Switch>
     </>
   );

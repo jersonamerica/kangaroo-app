@@ -54,6 +54,7 @@ const KangarooForm: FC<Props> = ({ isEditMode, selected }) => {
       return;
     }
 
+    // Fetch kangaroos here
     const isNameAlreadyTaken = kangaroos.some(
       (kangaroo) => data.name === kangaroo.name
     );
