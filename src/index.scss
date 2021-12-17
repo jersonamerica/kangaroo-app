@@ -9,9 +9,13 @@ body {
   margin: 0;
   font-size: 1rem;
   font-family: "Courier New", Courier, monospace;
-  height: 100vh;
+  min-height: 100vh;
   background: url("/images/kangaroo-bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
 }
