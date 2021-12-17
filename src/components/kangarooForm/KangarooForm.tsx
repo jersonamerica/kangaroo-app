@@ -91,7 +91,7 @@ const KangarooForm: FC<Props> = ({ isEditMode, selected }) => {
   return (
     <Container>
       <div className="form">
-        <h2>{isEditMode ? "Edit" : "Add"} Kangaroo</h2>
+        <h1>{isEditMode ? "Edit" : "Add"} Kangaroo</h1>
         <Textbox
           label="Name"
           onChange={(e: ChangeEvent<HTMLInputElement>) =>

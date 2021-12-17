@@ -22,7 +22,11 @@ const Textbox: FC<Props> = ({ label, onChange, errorMessage, value }) => {
         className="textbox"
         defaultValue={value}
       />
-      <div className="error-message">{errorMessage && errorMessage}</div>
+      {errorMessage && (
+        <div className="error-message">
+          <p>{errorMessage}</p>
+        </div>
+      )}
     </div>
   );
 };
