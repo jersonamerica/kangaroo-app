@@ -41,6 +41,13 @@ const KangarooForm: FC<Props> = ({ isEditMode, selected }) => {
       }
     });
 
+    const isNameAlreadyTaken = kangaroos
+      .filter((kangaroo) => kangaroo.name !== selected?.name)
+      .some((kangaroo) => kangaroo.name === data.name);
+    if (isNameAlreadyTaken) {
+      formError.name = `${data.name} is already taken`;
+    }
+
     if (data.height && !isValidNumber(data.height)) {
       formError.height = "Height must be a valid number";
     }
@@ -51,17 +58,6 @@ const KangarooForm: FC<Props> = ({ isEditMode, selected }) => {
 
     if (Object.keys(formError).length) {
       setError(formError);
-      return;
-    }
-
-    // Fetch kangaroos here
-    const isNameAlreadyTaken = kangaroos.some(
-      (kangaroo) => data.name === kangaroo.name
-    );
-    if (isNameAlreadyTaken && !isEditMode) {
-      setError({
-        name: `${data.name} is already taken`,
-      });
       return;
     }
     // submit data

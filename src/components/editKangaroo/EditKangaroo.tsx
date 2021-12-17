@@ -13,7 +13,7 @@ const EditKangaroo = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // Fetch kangaroos here
+    // Fetch specific kangaroo here
 
     const selected = kangaroos.find((kangaroo) => kangaroo.id === id);
     if (selected) {
