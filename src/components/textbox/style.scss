@@ -1,0 +1,26 @@
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.textbox {
+  width: 40%;
+  height: 30px;
+  margin-bottom: 1rem;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  outline: none;
+  padding: 0 0.5rem;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
+}
+
+.error-message {
+  color: red;
+}
+.error {
+  input {
+    border-color: red;
+  }
+}

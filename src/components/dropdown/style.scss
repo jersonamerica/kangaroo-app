@@ -1,0 +1,29 @@
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.dropdown {
+  width: 40%;
+  padding: 0.5rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  outline: none;
+  border-radius: 3px;
+  text-align: center;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
+}
+
+.error-message {
+  color: red;
+}
+
+.error {
+  border-color: red;
+}

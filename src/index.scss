@@ -1,0 +1,17 @@
+@import "~react-datepicker/dist/react-datepicker.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-size: 1rem;
+  font-family: "Courier New", Courier, monospace;
+  height: 100vh;
+  background: url("/images/kangaroo-bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
