@@ -29,48 +29,55 @@ const KangarooForm: FC<Props> = ({ isEditMode, selected }) => {
   }, [isEditMode, selected]);
 
   const submitForm = () => {
-    const requiredField = ["birthday", "gender", "height", "weight", "name"];
+    const requiredFields = ["birthday", "gender", "height", "weight", "name"];
+    let formError: Partial<Kangaroo> = {};
     setError(DEFAULT_STATE);
-    console.log("error", error);
-    requiredField.forEach((field) => {
+
+    if (data.height && !/^\d+(\.\d{1,2})?$/.test(data.height)) {
+      setError({
+        ...error,
+        height: "Height must be a number",
+      });
+      return;
+    }
+
+    if (data.weight && !/^\d+(\.\d{1,2})?$/.test(data.weight)) {
+      setError({
+        ...error,
+        weight: "Weight must be a number",
+      });
+      return;
+    }
+
+    requiredFields.forEach((field) => {
       // @ts-ignore
       if (!data[field]) {
-        setError({
-          [field]: `${field} must not be empty`,
-        });
+        // @ts-ignore
+        formError[field] = `${capitalize(field)} must not be empty`;
         return;
       }
-
-      if (!/^\d+(\.\d{1,2})?$/.test(data.height)) {
-        setError({
-          ...error,
-          height: "height must be a number",
-        });
-        return;
-      }
-
-      if (!/^\d+(\.\d{1,2})?$/.test(data.weight)) {
-        setError({
-          ...error,
-          weight: "weight must be a number",
-        });
-        return;
-      }
-
-      const isNameAlreadyTaken = kangaroos.some(
-        (kangaroo) => data.name === kangaroo.name
-      );
-
-      if (isNameAlreadyTaken && !isEditMode) {
-        setError({
-          name: `${data.name} is already taken`,
-        });
-      }
-
-      // submit data
-      submit(data);
     });
+
+    if (Object.keys(formError).length) {
+      setError(formError);
+      return;
+    }
+
+    const isNameAlreadyTaken = kangaroos.some(
+      (kangaroo) => data.name === kangaroo.name
+    );
+    if (isNameAlreadyTaken && !isEditMode) {
+      setError({
+        name: `${data.name} is already taken`,
+      });
+      return;
+    }
+    // submit data
+    submit(data);
   };
+
+  const capitalize = (str: string) =>
+    str.charAt(0).toUpperCase() + str.slice(1);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, key: string) =>
     setData({
@@ -91,7 +98,7 @@ const KangarooForm: FC<Props> = ({ isEditMode, selected }) => {
   };
 
   const submit = (data: Kangaroo) => {
-    console.log("data", data);
+    alert(JSON.stringify(data));
   };
   return (
     <Container>
