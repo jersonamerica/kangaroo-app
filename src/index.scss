@@ -13,10 +13,5 @@ body {
   margin: 0;
   font-size: 1rem;
   font-family: "Courier New", Courier, monospace;
-  min-height: 100vh;
   background-color: #13383e !important; // override dxgrid theme style
-
-  @media screen and (max-width: 767px) {
-    width: 100%;
-  }
 }
