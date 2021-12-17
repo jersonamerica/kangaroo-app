@@ -5,7 +5,7 @@ import Dropdown from "components/dropdown/Dropdown";
 import Container from "components/container/Container";
 import Button from "components/button/Button";
 import DatePicker from "react-datepicker";
-import { DEFAULT_STATE } from "helpers";
+import { DEFAULT_STATE, isValidNumber, capitalize } from "helpers";
 
 import { kangaroos } from "data";
 import { Kangaroo } from "types";
@@ -33,30 +33,21 @@ const KangarooForm: FC<Props> = ({ isEditMode, selected }) => {
     let formError: Partial<Kangaroo> = {};
     setError(DEFAULT_STATE);
 
-    if (data.height && !/^\d+(\.\d{1,2})?$/.test(data.height)) {
-      setError({
-        ...error,
-        height: "Height must be a number",
-      });
-      return;
-    }
-
-    if (data.weight && !/^\d+(\.\d{1,2})?$/.test(data.weight)) {
-      setError({
-        ...error,
-        weight: "Weight must be a number",
-      });
-      return;
-    }
-
     requiredFields.forEach((field) => {
       // @ts-ignore
       if (!data[field]) {
         // @ts-ignore
         formError[field] = `${capitalize(field)} must not be empty`;
-        return;
       }
     });
+
+    if (data.height && !isValidNumber(data.height)) {
+      formError.height = "Height must be a valid number";
+    }
+
+    if (data.weight && !isValidNumber(data.weight)) {
+      formError.weight = "Weight must be a valid number";
+    }
 
     if (Object.keys(formError).length) {
       setError(formError);
@@ -76,9 +67,6 @@ const KangarooForm: FC<Props> = ({ isEditMode, selected }) => {
     submit(data);
   };
 
-  const capitalize = (str: string) =>
-    str.charAt(0).toUpperCase() + str.slice(1);
-
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, key: string) =>
     setData({
       ...data,
@@ -86,7 +74,7 @@ const KangarooForm: FC<Props> = ({ isEditMode, selected }) => {
     });
 
   const validateNumber = (e: ChangeEvent<HTMLInputElement>, key: string) => {
-    if (!/^\d+\.\d{0,2}$/.test(e.target.value)) {
+    if (!isValidNumber(e.target.value)) {
       // not sure why this isn't working
       e.preventDefault();
     }
@@ -98,7 +86,7 @@ const KangarooForm: FC<Props> = ({ isEditMode, selected }) => {
   };
 
   const submit = (data: Kangaroo) => {
-    alert(JSON.stringify(data));
+    console.log(data);
   };
   return (
     <Container>
@@ -125,7 +113,7 @@ const KangarooForm: FC<Props> = ({ isEditMode, selected }) => {
             validateNumber(e, "weight")
           }
           value={data.weight}
-          errorMessage={error?.weight?.toString()}
+          errorMessage={error?.weight}
         />
         <Textbox
           label="Height"
@@ -133,7 +121,7 @@ const KangarooForm: FC<Props> = ({ isEditMode, selected }) => {
             validateNumber(e, "height")
           }
           value={data.height}
-          errorMessage={error?.height?.toString()}
+          errorMessage={error?.height}
         />
         <Dropdown
           onChange={(e: ChangeEvent<HTMLInputElement>) =>

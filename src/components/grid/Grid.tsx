@@ -34,8 +34,8 @@ const Datagrid: FC<Props> = ({ data }) => {
           alignment="left"
         />
         <Column
-          dataField="birthdate"
-          caption="Birthdate"
+          dataField="birthday"
+          caption="Birthday"
           dataType="date"
           alignment="left"
         />
